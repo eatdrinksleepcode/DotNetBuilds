@@ -6,19 +6,17 @@
 	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\tools\MSBuild.Community.Tasks.Targets" />
 
 	<ItemGroup>
+		<AssemblyInfoTemplateFile Include="ConsoleApp\Properties\AssemblyInfo.cs.template"/>
 		<AssemblyInfoFile Include="ConsoleApp\Properties\AssemblyInfo.cs"/>
 	</ItemGroup>
 
-	<Target Name="SetAssemblyVersion">
-
-		<ReadLinesFromFile File="@(AssemblyInfoFile)">
-			<Output TaskParameter="Lines" ItemName="AssemblyInfoContents"/>
-		</ReadLinesFromFile>
+	<Target Name="SetAssemblyVersion" Inputs="@(AssemblyInfoTemplateFile)" Outputs="@(AssemblyInfoFile)">
+		<Copy SourceFiles="@(AssemblyInfoTemplateFile)" DestinationFiles="@(AssemblyInfoFile)"/>
 
 		<FileUpdate
 			Files="@(AssemblyInfoFile)"
-			Regex="AssemblyVersion\((&quot;&quot;)\)"
-			ReplacementText="AssemblyVersion(&quot;1.1&quot;)"/>
+			Regex="@@AssemblyVersion@@"
+			ReplacementText="1.1"/>
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="SetAssemblyVersion">
@@ -26,9 +24,5 @@
 		<MSBuild Targets="Build"
 	    	     Projects="DotNetBuilds.sln" />
  	</Target>
-	
-	<Target Name="RevertAssemblyInfo" AfterTargets="Build">
-		<Exec Command="git checkout @(AssemblyInfoFile)"/>
-	</Target>
 
 </Project>
