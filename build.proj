@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build"
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
 	<PropertyGroup>
 		<MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
 	</PropertyGroup>
@@ -20,7 +22,6 @@
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="SetAssemblyVersion">
-
 		<MSBuild Targets="Build"
 	    	     Projects="DotNetBuilds.sln" />
  	</Target>
